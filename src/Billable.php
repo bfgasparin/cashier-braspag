@@ -9,6 +9,7 @@ use BadMethodCallException;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Illuminate\Support\Collection;
+use BfGasparin\Cashier\Exceptions\PaymentAlreadyRefundedException;
 
 trait Billable
 {
@@ -36,14 +37,26 @@ trait Billable
     {
         $sales= app(Sales::class);
 
-        return $sales>get($id);
+        return $sales->get($id);
     }
 
-    public function void($id, $amount)
+    /**
+     * Refunds the given payment with the given $amount
+     * @param  Payment $payment
+     * @param  integer $amount 
+     * @return Void   
+     */
+    public function refund(Payment $payment, $amount)
     {
-        
-        $a = app(Sales::class);
-        return $a->void($id, $amount);        
+        if ($payment->isRefunded()){
+            throw new PaymentAlreadyRefundedException("Payment is already refunded");
+        }
+
+        $refund = $payment->refunds()->create(['amount' => $amount]);
+
+        $refund->complete();
+
+        return $refund;
     }
 
     public function setParameter($id, $value)
@@ -63,7 +76,7 @@ trait Billable
 
         $sales = app(Sales::class);
         $sale = new Sale([
-            'merchantOrderId' => '2014112703',
+            'merchantOrderId' => $options['order_id'],
             'customer' => [
                 'name' => "Comprador de Testes",
                 'email' => "compradordetestes@braspag.com.br",
