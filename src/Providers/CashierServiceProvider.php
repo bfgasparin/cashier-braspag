@@ -2,6 +2,7 @@
 
 namespace BfGasparin\Cashier\Providers;
 
+use Braspag\Braspag;
 use Braspag\Http\Sales;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -17,6 +18,8 @@ class CashierServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Sales::class, function ($app) {
+            Braspag::$apiBase = config('braspag.apiBase');
+            Braspag::$apiQueryBase = config('braspag.apiQueryBase');
             return new Sales(config('braspag.merchantId'), config('braspag.merchantKey'));
         });
     }
