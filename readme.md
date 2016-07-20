@@ -1,5 +1,7 @@
 # Laravel Cashier - Braspag Edition
 
+## This package is under development. Do not use it in production yet.
+
 ## Introduction
 
 Laravel Cashier provides an expressive, fluent interface to Braspag's billing services. 
