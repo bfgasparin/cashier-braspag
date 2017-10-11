@@ -1,6 +1,17 @@
 # Laravel Cashier - Braspag Edition
 
-## This package is under development. Do not use it in production yet.
+## Deprecation notice
+
+> Hi there,
+>
+> This package is not maintained anymore. The development of this package 
+> started as a need to integrate some systems to Braspag API, but only a few
+> endpoints were implemented until now. I'd like to finish this package and share to
+> the community, but I'm not able to that right now. 
+>
+> I strongly recommend you look for an alternative.
+> 
+> Thanks.
 
 ## Introduction
 
